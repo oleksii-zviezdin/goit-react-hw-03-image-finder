@@ -8,7 +8,6 @@ import { LoadMore } from './Button/Button'
 import { Container } from './App.styled';
 
 const pixabayAPI = new PixabayAPI(); 
-// import { FallingLines, Rings, RotatingLines, RotatingSquare,ThreeCircles, InfinitySpin, Puff, MutatingDots } from 'react-loader-spinner'
 
 export class App extends Component{
   state = {
@@ -33,7 +32,6 @@ export class App extends Component{
   componentDidUpdate = async (_, prevState) => {
     const { keyWorld, page } = this.state;
     if (prevState.keyWorld !== keyWorld || prevState.page !== page) {
-      console.log(`State is change on: ${keyWorld}`)
 
       pixabayAPI.q = keyWorld;
       pixabayAPI.page = page;
@@ -50,7 +48,6 @@ export class App extends Component{
         })
         const { data } = await pixabayAPI.fetchPhotos()
         if (data.totalHits > 0) {
-          console.log(data)
           this.setState(pverState => ({
             res: [...pverState.res, ...data.hits]
           }))

@@ -18,6 +18,7 @@ export const LoaderCSS = styled(Rings)`
     width: 250px;
     height: 250px;
     position: absolute;
+    color: blue;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
