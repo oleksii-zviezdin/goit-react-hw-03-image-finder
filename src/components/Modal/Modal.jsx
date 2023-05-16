@@ -1,8 +1,8 @@
 import { ModalOrevlay, ModalWindow } from "./Modal.styled"
 
-export const Modal = ({srcLarge, altText, escapeFromModal}) => {
+export const Modal = ({srcLarge, altText, escapeFromModal, handleOnKeyDown}) => {
     return (
-            <ModalOrevlay onClick={escapeFromModal}>
+            <ModalOrevlay onKeyDown={handleOnKeyDown} onClick={escapeFromModal}>
                 <ModalWindow src={srcLarge} alt={`name: ${altText}`} />
             </ModalOrevlay>
     )

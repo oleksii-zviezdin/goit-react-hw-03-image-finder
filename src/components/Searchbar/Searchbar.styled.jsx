@@ -14,9 +14,12 @@ export const SearchbarCSS = styled.header`
     padding-top: 12px;
     padding-bottom: 12px;
     color: #fff;
-    background-color: #3f51b5;
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(-45deg, rgb(7, 0, 59), rgb(14, 0, 92));
+    &:hover,
+    &:focus{box-shadow: 0px 4px 12px 8px  rgb(36, 10, 162)}
 `
 
 export const SearchForm = styled.form`
@@ -27,6 +30,57 @@ export const SearchForm = styled.form`
     background-color: #fff;
     border-radius: 3px;
     overflow: hidden;
+    &:before {
+    content: "";
+    background: linear-gradient(
+        45deg,
+        #001aff,
+        #003bfb,
+         #0c24ff,
+        #fffb00,
+        #fffb00,
+       #fffb00,
+        #001aff,
+        #001aff,
+         #001aff
+    );
+    position: absolute;
+    top: 2px;
+    left: 0px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing-button-85 20s linear infinite;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+    }
+
+    @keyframes glowing-button-85 {
+        0% {
+            background-position: 0 0;
+        }
+        50% {
+            background-position: 400% 0;
+        }
+        100% {
+            background-position: 0 0;
+        }
+    }
+    
+    &:after {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #222;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+    }
 `
 
 export const SearchFormButton = styled.button`
@@ -75,5 +129,5 @@ export const SearchFormInput = styled.input`
     &::placeholder {
         font: inherit;
         font-size: 18px;
-    } 
+    }
 `

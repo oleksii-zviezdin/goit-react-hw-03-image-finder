@@ -4,7 +4,8 @@ import { Component } from 'react';
 import { PixabayAPI } from './fetchAPI/fetchAPI';
 import { LoaderWrapper, LoaderCSS } from './Loader/Loader.styled';
 import { ErrorMessage } from './ErrorMessage.styled';
-import {LoadMore} from './Button/Button'
+import { LoadMore } from './Button/Button'
+import { Container } from './App.styled';
 
 const pixabayAPI = new PixabayAPI(); 
 // import { FallingLines, Rings, RotatingLines, RotatingSquare,ThreeCircles, InfinitySpin, Puff, MutatingDots } from 'react-loader-spinner'
@@ -21,38 +22,62 @@ export class App extends Component{
 
   handleSearchImg = searchWorld => {
     this.setState({keyWorld: searchWorld})
-    console.log(searchWorld)
+  }
+
+  hamdleLoadMoreButton = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
   }
 
   componentDidUpdate = async (_, prevState) => {
     const { keyWorld, page } = this.state;
-    if (prevState.keyWorld !== keyWorld) {
+    if (prevState.keyWorld !== keyWorld || prevState.page !== page) {
       console.log(`State is change on: ${keyWorld}`)
 
       pixabayAPI.q = keyWorld;
       pixabayAPI.page = page;
       try
       { 
-        this.setState({ hasMore: false })
-        this.setState({ error: false });
-        this.setState({ isLoading: true });
+        if (prevState.keyWorld !== keyWorld) {
+          this.setState({
+            res: [],
+          })
+        }
+        this.setState({
+          error: false,
+          isLoading: true,
+        })
         const { data } = await pixabayAPI.fetchPhotos()
         if (data.totalHits > 0) {
-          
-        console.log(pixabayAPI.perPage)
-        console.log(data.totalHits)
-          this.setState({ res: data.hits })
+          console.log(data)
+          this.setState(pverState => ({
+            res: [...pverState.res, ...data.hits]
+          }))
+
           if (data.totalHits > pixabayAPI.perPage) {
-          this.setState({ hasMore: true })
-        } 
+            this.setState({ hasMore: true })
+          }
+          
+          const totalPage = Math.ceil(data.totalHits / pixabayAPI.perPage);
+          if (totalPage === this.state.page) {
+            this.setState({
+              hasMore: false,
+            })
+          }
         } else {
           throw new Error(`Nothing was found for your query "${keyWorld}".`)
         }
       }
       catch (error) {
-        this.setState({ error })
+        this.setState({
+          error,
+          res: [],
+          hasMore: false,
+        })
       } finally {
-        this.setState({ isLoading: false })};
+        this.setState({ isLoading: false })
+      };
     }
   }
   
@@ -65,8 +90,9 @@ export class App extends Component{
                         <LoaderCSS />
                       </LoaderWrapper>
         }
+        <Container>
         {error ? <ErrorMessage>{error.message}</ErrorMessage> : <ImageGallery res={res} /> }
-        {hasMore && <LoadMore/>}
+        {hasMore && <LoadMore handleClick={this.hamdleLoadMoreButton} />}</Container>
         <ToastContainer 
           position="top-center"
           theme="dark"

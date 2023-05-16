@@ -13,8 +13,16 @@ export class ImageGalleryItem extends Component {
         })
     }
 
-    handleClickOnOverlay = (e) => {
-        if (e.target !== e.currentTarget) {
+    handleKeyDown = (e) => {
+        if (e.key === "Escape") {
+        this.setState({
+            visibleModal: false,
+        });
+        }
+    };
+    
+    handleClickOnOverlay = e => {
+        if (e.target !== e.currentTarget) { 
             return
         }
         this.setState({
@@ -28,7 +36,7 @@ export class ImageGalleryItem extends Component {
         return (
         <ImageGalleryItemsCSS className="gallery-item">
                 <ImageGalleryImage onClick={() => this.handleClick()} src={smallImg} alt={`name: ${smallImg}`} />
-                {visibleModal && <Modal escapeFromModal={this.handleClickOnOverlay} srcLarge={largeImg} altText={smallImg} />}
+                {visibleModal && <Modal handleOnKeyDown={this.handleKeyDown} escapeFromModal={this.handleClickOnOverlay} srcLarge={largeImg} altText={smallImg} />}
         </ImageGalleryItemsCSS>
     )
     }

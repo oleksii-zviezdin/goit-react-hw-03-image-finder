@@ -10,6 +10,7 @@ export const ModalOrevlay = styled.div`
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
     z-index: 1200;
 `
 
