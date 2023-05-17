@@ -1,5 +1,6 @@
 import { ImageGalleryItem } from "components"
 import { ImageGalleryCSS } from "./ImageGallery.styled"
+import PropTypes from "prop-types"
 
 export const ImageGallery = ({res}) => {
     return (
@@ -10,5 +11,15 @@ export const ImageGallery = ({res}) => {
                 )
             })}
         </ImageGalleryCSS>
+    )
+}
+
+ImageGallery.propTypes = {
+    res: PropTypes.arrayOf(
+        PropTypes.exact({
+        id: PropTypes.number.isRequired,
+        webformatURL: PropTypes.string.isRequired,
+        largeImageURL: PropTypes.string.isRequired,
+        }).isRequired
     )
 }

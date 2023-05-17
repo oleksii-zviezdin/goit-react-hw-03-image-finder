@@ -6,7 +6,7 @@ export const LoadmoreBnt = styled.button`
     border: none;
     outline: none;
     color: rgb(255, 255, 255);
-    background: #111;
+    background-color: #070120;
     cursor: pointer;
     position: relative;
     z-index: 0;
@@ -14,6 +14,13 @@ export const LoadmoreBnt = styled.button`
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover,
+    &:focus {
+        transform: scale(1.1, 1.05); /* Змінює масштаб по обох осях X і Y */
+        background-color: #0d023b;
+    }
 
     &:before {
     content: "";
@@ -61,9 +68,13 @@ export const LoadmoreBnt = styled.button`
         position: absolute;
         width: 100%;
         height: 100%;
-        background: #222;
+        background-color: #070120;
         left: 0;
         top: 0;
         border-radius: 10px;
+        &:hover,
+        &:focus {
+            background-color: #0d023b;
+        }
     }
 `

@@ -11,7 +11,7 @@ const pixabayAPI = new PixabayAPI();
 
 export class App extends Component{
   state = {
-    keyWorld: '',
+    keyWord: '',
     isLoading: false,
     error: false,
     res: [],
@@ -19,8 +19,11 @@ export class App extends Component{
     hasMore: false,
   }
 
-  handleSearchImg = searchWorld => {
-    this.setState({keyWorld: searchWorld})
+  handleSearchImg = searchWord => {
+    this.setState({
+      keyWord: searchWord,
+      page: 1,
+    })
   }
 
   hamdleLoadMoreButton = () => {
@@ -30,40 +33,35 @@ export class App extends Component{
   }
 
   componentDidUpdate = async (_, prevState) => {
-    const { keyWorld, page } = this.state;
-    if (prevState.keyWorld !== keyWorld || prevState.page !== page) {
+    const { keyWord, page } = this.state;
+    if (prevState.keyWord !== keyWord || prevState.page !== page) {
 
-      pixabayAPI.q = keyWorld;
+      pixabayAPI.q = keyWord.trim();
       pixabayAPI.page = page;
-      try
-      { 
-        if (prevState.keyWorld !== keyWorld) {
+
+      try { 
+        if (prevState.keyWord !== keyWord) {
           this.setState({
             res: [],
           })
         }
+        
         this.setState({
           error: false,
           isLoading: true,
         })
-        const { data } = await pixabayAPI.fetchPhotos()
-        if (data.totalHits > 0) {
-          this.setState(pverState => ({
-            res: [...pverState.res, ...data.hits]
-          }))
 
-          if (data.totalHits > pixabayAPI.perPage) {
-            this.setState({ hasMore: true })
-          }
-          
-          const totalPage = Math.ceil(data.totalHits / pixabayAPI.perPage);
-          if (totalPage === this.state.page) {
-            this.setState({
-              hasMore: false,
-            })
-          }
+        const { data: { totalHits, hits } } = await pixabayAPI.fetchPhotos()
+          if (totalHits > 0) {
+            const newHits = hits.map(({ id, webformatURL, largeImageURL }) => ({ id, webformatURL, largeImageURL }))
+            this.setState(pverState => ({
+              res: [...pverState.res, ...newHits],
+            }))
+
+          const totalPage = Math.ceil(totalHits / pixabayAPI.perPage);
+          this.setState({hasMore: totalPage !== page,})
         } else {
-          throw new Error(`Nothing was found for your query "${keyWorld}".`)
+          throw new Error(`Nothing was found for your query "${keyWord}".`)
         }
       }
       catch (error) {
@@ -82,14 +80,15 @@ export class App extends Component{
     const { isLoading, res, error, hasMore } = this.state;
     return (
       <div>
-        <Searchbar getKeyWorld={this.handleSearchImg} />
+        <Searchbar handleSubmit={this.handleSearchImg} />
         {isLoading && <LoaderWrapper>                 
                         <LoaderCSS />
                       </LoaderWrapper>
         }
         <Container>
-        {error ? <ErrorMessage>{error.message}</ErrorMessage> : <ImageGallery res={res} /> }
-        {hasMore && <LoadMore handleClick={this.hamdleLoadMoreButton} />}</Container>
+          {error && <ErrorMessage>{error.message}</ErrorMessage>}
+          {!error && <ImageGallery res={res} />}
+          {hasMore && <LoadMore handleClick={this.hamdleLoadMoreButton} />}</Container>
         <ToastContainer 
           position="top-center"
           theme="dark"

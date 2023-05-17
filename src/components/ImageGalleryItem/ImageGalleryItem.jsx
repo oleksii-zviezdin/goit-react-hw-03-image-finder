@@ -1,10 +1,19 @@
 import { Component } from "react"
 import { ImageGalleryItemsCSS, ImageGalleryImage } from "./ImageGalleryItem.styled"
 import { Modal } from "components"
+import PropTypes from "prop-types"
 
 export class ImageGalleryItem extends Component {
     state = {
         visibleModal: false,
+    }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown)
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown)
     }
 
     handleClick() {
@@ -13,7 +22,7 @@ export class ImageGalleryItem extends Component {
         })
     }
 
-    handleKeyDown = (e) => {
+    handleKeyDown = e => {
         if (e.key === "Escape") {
         this.setState({
             visibleModal: false,
@@ -40,4 +49,9 @@ export class ImageGalleryItem extends Component {
         </ImageGalleryItemsCSS>
     )
     }
+}
+
+ImageGalleryItem.propTypes = {
+    smallImg: PropTypes.string.isRequired,
+    largeImg: PropTypes.string.isRequired,
 }

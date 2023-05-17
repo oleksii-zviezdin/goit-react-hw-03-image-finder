@@ -30,19 +30,23 @@ export const SearchForm = styled.form`
     background-color: #fff;
     border-radius: 3px;
     overflow: hidden;
+    outline: 2px solid #3430ff;
+    
+    box-shadow: 0 0 10px 2px #2f00ff;
+
     &:before {
     content: "";
     background: linear-gradient(
         45deg,
         #001aff,
         #003bfb,
-         #0c24ff,
+        #0c24ff,
         #fffb00,
         #fffb00,
-       #fffb00,
+        #fffb00,
         #001aff,
         #001aff,
-         #001aff
+        #001aff
     );
     position: absolute;
     top: 2px;
@@ -76,7 +80,7 @@ export const SearchForm = styled.form`
         position: absolute;
         width: 100%;
         height: 100%;
-        background: #222;
+        background-color: #070120;
         left: 0;
         top: 0;
         border-radius: 10px;
@@ -87,12 +91,12 @@ export const SearchFormButton = styled.button`
     display: inline-block;
     width: 48px;
     height: 48px;
-    outline: 1px solid tomato;
-    border: 0;
+    border: none;
     background-image: url('https://img.icons8.com/search');
     background-size: 40%;
     background-repeat: no-repeat;
     background-position: center;
+    background-color: #4c419e;
     opacity: 0.6;
     transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;

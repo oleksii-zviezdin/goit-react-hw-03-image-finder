@@ -2,10 +2,11 @@ import { Component } from "react";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { SearchbarCSS, SearchForm, SearchFormButton, SearchFormButtonLabel, SearchFormInput } from "./Searchbar.styled";
+import PropTypes from "prop-types"
 
 export class Searchbar extends Component {
     state = {
-        searchWorld: '',
+        searchWord: '',
     }
 
     handleChange = e => {
@@ -17,20 +18,20 @@ export class Searchbar extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        const { getKeyWorld } = this.props;
-        const { searchWorld } = this.state;
+        const { handleSubmit } = this.props;
+        const { searchWord } = this.state;
         
-        if (searchWorld.trim() === '') {
+        if (searchWord.trim() === '') {
             toast.info('The field cannot be empty. Please enter a search query')
             return
         }
 
-        getKeyWorld(searchWorld);
-        this.setState({searchWorld: ''})
+        handleSubmit(searchWord);
+        this.setState({searchWord: ''})
     }
 
     render() {
-        const { searchWorld } = this.state;
+        const { searchWord } = this.state;
         return (
             <SearchbarCSS className="searchbar">
                 <SearchForm onSubmit={this.handleSubmit} className="form">
@@ -40,8 +41,8 @@ export class Searchbar extends Component {
 
                     <SearchFormInput
                         onChange={this.handleChange}
-                        name="searchWorld"
-                        value={searchWorld}
+                        name="searchWord"
+                        value={searchWord}
                         className="input"
                         type="text"
                         autocomplete="off"
@@ -52,4 +53,9 @@ export class Searchbar extends Component {
             </SearchbarCSS>
         )
     }
+}
+
+
+Searchbar.propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
 }
