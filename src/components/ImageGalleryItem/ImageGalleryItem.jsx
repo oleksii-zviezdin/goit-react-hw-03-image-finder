@@ -7,28 +7,18 @@ export class ImageGalleryItem extends Component {
     state = {
         visibleModal: false,
     }
-
-    componentDidMount() {
-        document.addEventListener('keydown', this.handleKeyDown)
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeyDown)
-    }
-
+    
     handleClick() {
         this.setState({
             visibleModal: true,
         })
     }
 
-    handleKeyDown = e => {
-        if (e.key === "Escape") {
-        this.setState({
-            visibleModal: false,
-        });
+    handleKeyDown = isVisible => {
+            this.setState({
+                visibleModal: isVisible,
+            })
         }
-    };
     
     handleClickOnOverlay = e => {
         if (e.target !== e.currentTarget) { 

@@ -15,7 +15,7 @@ export class Searchbar extends Component {
             [name]: value,
         })
     }
-
+// на початку у мене була така думка, але коли я подумав рендерити її за умовою && в галереї, то подумав, простіше буде робити так як у мене зараз, не підозрюючи що буде така проблема.. +чогось мені було не зрозуміло ч 
     handleSubmit = e => {
         e.preventDefault();
         const { handleSubmit } = this.props;
